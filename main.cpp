@@ -174,6 +174,7 @@ int main( int argc, char* argv[] )
 		report_file<<"simulated time\tnum cells\tnum division\tnum death\twall time"<<std::endl;
 	}
 	
+    double max_x = parameters.doubles("max_x");
 	// main loop 
 	
 	try 
@@ -214,7 +215,7 @@ int main( int argc, char* argv[] )
 			}
 
 			// update the microenvironment
-			microenvironment.simulate_diffusion_decay( diffusion_dt );
+			// microenvironment.simulate_diffusion_decay( diffusion_dt );  //rwh
 			
 			// run PhysiCell 
 			((Cell_Container *)microenvironment.agent_container)->update_all_cells( PhysiCell_globals.current_time );
@@ -224,6 +225,11 @@ int main( int argc, char* argv[] )
 			*/
 			
 			PhysiCell_globals.current_time += diffusion_dt;
+
+            if ((*all_cells)[0]->position[0] > max_x)
+            {
+                exit(-1);
+            }
 		}
 		
 		if( PhysiCell_settings.enable_legacy_saves == true )

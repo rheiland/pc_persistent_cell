@@ -1,8 +1,8 @@
 <PhysiCell_settings version="devel-version">
 
     <domain>
-        <x_min>-500</x_min>
-        <x_max>500</x_max>
+        <x_min>0</x_min>
+        <x_max>1000</x_max>
         <y_min>-100</y_min>
         <y_max>100</y_max>
         <z_min>-10</z_min>
@@ -14,7 +14,7 @@
     </domain>
 
     <overall>
-        <max_time units="min">1440.0</max_time>
+        <max_time units="min">14400</max_time>
         <time_units>min</time_units>
         <space_units>micron</space_units>
         <dt_diffusion units="min">0.01</dt_diffusion>
@@ -150,7 +150,7 @@
                 <motility>
                     <speed units="micron/min">1</speed>
                     <persistence_time units="min">1</persistence_time>
-                    <migration_bias units="dimensionless">.5</migration_bias>
+                    <migration_bias units="dimensionless">.6</migration_bias>
                     <options>
                         <enabled>true</enabled>
                         <use_2D>true</use_2D>
@@ -221,5 +221,6 @@
     <user_parameters>
         <random_seed type="int" units="dimensionless" description="">0</random_seed>
         <number_of_cells type="int" units="none" description="initial number of cells (for each cell type)">0</number_of_cells>
+        <max_x type="double" units="none" description="stop sim at cell's max X">950</max_x>
     </user_parameters>
 </PhysiCell_settings>
