@@ -278,7 +278,9 @@ class Vis(VisBase, QWidget):
         # print("------ vis_tab.py: update_plots()")
         # for line in traceback.format_stack():
         #     print(line.strip())
-        self.ax0.cla()
+
+        self.ax0.cla()  # rwh
+
         if self.substrates_checked_flag:  # do first so cells are plotted on top
             self.plot_substrate(self.current_frame)
         if self.cells_checked_flag:

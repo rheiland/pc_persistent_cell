@@ -331,6 +331,9 @@ class VisBase():
         # global self.config_params
         super(VisBase,self).__init__(**kw)
 
+        self.xpath = np.empty(0)   # rwh
+        self.ypath = np.empty(0)   # rwh
+        # self.cell_path = np.vstack((self.cell_path, self.new_pos))
 
         self.vis_filter_init_flag = True
 
@@ -719,10 +722,22 @@ class VisBase():
         self.vbox.addLayout(hbox)
 
         #------
+        # rwh - modify for persistent cell model
+        hbox = QHBoxLayout()
+
         self.play_button = QPushButton("Play")
         self.play_button.setFixedWidth(70)
         self.play_button.clicked.connect(self.animate)
-        self.vbox.addWidget(self.play_button)
+        # self.vbox.addWidget(self.play_button)
+        hbox.addWidget(self.play_button)
+
+        self.clear_button = QPushButton("Clear")
+        self.clear_button.setFixedWidth(70)
+        self.clear_button.clicked.connect(self.clear_plot)
+        hbox.addWidget(self.clear_button)
+
+
+        self.vbox.addLayout(hbox)
 
         #------
         self.vbox.addWidget(QHLine())
@@ -2196,6 +2211,8 @@ class VisBase():
         self.current_svg_frame = 0
         self.current_frame = 0
         # print("\n>>> calling update_plots() from "+ inspect.stack()[0][3])
+
+        # self.ax0.cla()  # rwh
         self.update_plots()
 
     def last_svg_plot(self):
@@ -2654,6 +2671,15 @@ class VisBase():
         self.update_plots()
 
 
+    def clear_plot(self):
+        # self.xpath = np.delete(self.xpath)
+        self.xpath = np.empty(0)   # rwh
+        self.ypath = np.empty(0)   # rwh
+        self.ax0.cla()
+        self.canvas.update()
+        self.canvas.draw()
+        return
+
     def animate(self):
         if not self.animating_flag:
             self.animating_flag = True
@@ -2832,6 +2858,13 @@ class VisBase():
         # ax.add_collection(collection)
         # ax.autoscale_view()
         self.ax0.add_collection(collection)
+
+        # self.ax0.plot([0,500],[0,0],'-')   #rwh
+        # xs, ys = zip(*verts)
+        self.xpath = np.append(self.xpath,x)  #rwh - path
+        self.ypath = np.append(self.ypath,y)
+        self.ax0.plot(self.xpath, self.ypath, '-', lw=1, color='black', ms=10)
+
         self.ax0.autoscale_view()
         plt.draw_if_interactive()
         # if c is not None:
