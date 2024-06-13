@@ -79,6 +79,8 @@ void setup_tissue( void );
 // set up the BioFVM microenvironment 
 void setup_microenvironment( void ); 
 
+void custom_cell_motility( Cell* , Phenotype& , double );
+
 // custom pathology coloring function 
 
 std::vector<std::string> my_coloring_function( Cell* );

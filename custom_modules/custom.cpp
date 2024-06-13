@@ -126,6 +126,8 @@ void create_cell_types( void )
 	cell_defaults.functions.update_phenotype = phenotype_function; 
 	cell_defaults.functions.custom_cell_rule = custom_function; 
 	cell_defaults.functions.contact_function = contact_function; 
+
+    cell_defaults.functions.update_migration_bias = custom_cell_motility;  //rwh
 	
 	/*
 	   This builds the map of cell definitions and summarizes the setup. 
@@ -195,6 +197,17 @@ void setup_tissue( void )
 	load_cells_from_pugixml();
 	set_parameters_from_distributions();
 	
+	return; 
+}
+
+std::vector<double> ctype1_direction {1.0, 0.0, 0.0};
+
+void custom_cell_motility( Cell* pCell, Phenotype& phenotype, double dt )
+{
+    // migration_bias_direction = {1.,0.,0.};
+
+    phenotype.motility.migration_bias_direction = ctype1_direction;	
+		// normalize( &( phenotype.motility.migration_bias_direction ) );			
 	return; 
 }
 
